@@ -1,0 +1,15 @@
+.header {
+  background-color: #d1cfcf;
+}
+.header .div_header {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 1400px;
+  max-width: calc(100% - 30px);
+  margin: 0 auto;
+}
+.header .div_header .div_logo > img {
+  width: 120px;
+}/*# sourceMappingURL=header.module.css.map */
