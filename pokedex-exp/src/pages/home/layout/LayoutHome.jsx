@@ -10,8 +10,10 @@ export default function LayoutHome() {
 
     const [arrayPokemon, setArrayPokemon] = useState([])
     const [xpage, setXpage] = useState(1)
-    const [global, setglobal] = useState([])
+    const [global, setGlobal] = useState([])
+    const [search, setSearch] = useState('')
 
+    // URL para obtener pokemon segun su url
     useEffect(() => {
         const api = async () => {
             const limit = 25
@@ -23,19 +25,31 @@ export default function LayoutHome() {
         getglobalPokemon()
     }, [xpage])
 
+    // URL para tener un limite de busqueda
     const getglobalPokemon = async () => {
-        const res = await axios.get(`${URL_POKEMON}?offset=0&limit=1008`)
+        const res = await axios.get(`${URL_POKEMON}?offset=0&limit=1025`)
         const promises = res.data.results.map(pokemon => {
             return pokemon;
         })
         const results = await Promise.all(promises)
-        setglobal(results)
+        setGlobal(results)
     }
+
+    // Configurar el Buscar
+    const obtenerSearch = (e)=>{
+        const texto = e.toLowerCase()
+        setSearch(texto)
+        setXpage (1)
+    }
+
+    const filterPokemon  = search.length>0 ? 
+    global?.filter(pokemon=> pokemon?.name?.includes(search)) 
+    : arrayPokemon
 
     //HTML
     return (
         <div className={css.layout}>
-            <Header />
+            <Header obtenerSearch={obtenerSearch}/>
             <section className={css.section_page}>
                 <div className={css.div_page}>
                     <span className={css.item_izq}
@@ -51,7 +65,7 @@ export default function LayoutHome() {
                     <span className={css.item}>{" "}{Math.round(global?.length / 25)}{" "} </span>
                     <span className={css.item_der}
                         onClick={() => {
-                            xpage === 40 ? setXpage : setXpage(xpage + 1)
+                            xpage === 41 ? setXpage : setXpage(xpage + 1)
                         }
 
                         }
@@ -61,11 +75,13 @@ export default function LayoutHome() {
                     </span>
                 </div>
             </section >
+            {/*Contenido */}
             <div className={css.card_content}>
-                {arrayPokemon.map((card, index) => {
+                {filterPokemon.map((card, index) => {
                     return <Card key={index} card={card} />
                 })}
             </div>
+            {/*flechas footer */}
             <section className={`${css.section_page} ${css.secbottom}`}>
                 <div className={css.div_page}>
                     <span
@@ -82,7 +98,7 @@ export default function LayoutHome() {
                     <span
                         className={css.item_der}
                         onClick={() => {
-                            xpage === 40 ? setXpage : setXpage(xpage + 1)
+                            xpage === Math.round(global?.length / 25) ? setXpage : setXpage(xpage + 1)
                         }
                         }>{" "}<cgIcons.CgArrowRight />{" "}
                     </span>

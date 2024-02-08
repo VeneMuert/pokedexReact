@@ -148,7 +148,7 @@ export default function Card({ card }) {
         <div className={css.card}>
             <img className={css.img_poke} src={itemPokemon?.sprites?.other["official-artwork"]?.front_default} alt={card.name} />
             <div className={`bg-${idPokemon?.data?.color?.name} ${css.sub_card}`}>
-                <strong className={css.id_card}>  {id}  </strong>
+                <strong className={css.id_card}> #{id}  </strong>
                 <strong className={css.name_card}> {itemPokemon.name}</strong>
                 <h4 className={`${idPokemon?.data?.color?.name === 'yellow' ? 'bg-yellow' : ''} ${css.altura} `}> Altura: {itemPokemon?.height / 10} m</h4>
                 <h4 className={css.peso}> Peso: {itemPokemon?.weight / 10} Kgs</h4>
